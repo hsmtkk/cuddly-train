@@ -17,6 +17,11 @@ class MyStack extends TerraformStack {
       region,
     });
 
+    const service_account = new google.serviceAccount.ServiceAccount(this, 'service_account', {
+      accountId: 'my-account',
+      displayName: 'service account for this project',
+    });
+
     new google.artifactRegistryRepository.ArtifactRegistryRepository(this, 'artifact_registry', {
       format: 'docker',
       location: region,
@@ -31,6 +36,16 @@ class MyStack extends TerraformStack {
         push: {
           branch: 'main',
         },
+      },
+      serviceAccount: service_account.email,
+    });
+
+    new google.containerCluster.ContainerCluster(this, 'container_cluster', {
+      name: 'my-cluster',
+      enableAutopilot: true,
+      nodeConfig: {
+        serviceAccount: service_account.email,
+        spot: true,
       },
     });
   }
