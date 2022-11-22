@@ -1,4 +1,5 @@
 ---
 resources:
+  - cron-client.yaml
   - web.yaml
   - add.yaml
