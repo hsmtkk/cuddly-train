@@ -1,0 +1,20 @@
+steps:
+  - name: gcr.io/kaniko-project/executor:latest
+    id: build-web
+    waitFor: ['-']
+    args:
+      - --cache=true
+      - --cache-ttl=168h
+      - --destination=${LOCATION}-docker.pkg.dev/$PROJECT_ID/registry/web:latest
+      - --destination=${LOCATION}-docker.pkg.dev/$PROJECT_ID/registry/web:$COMMIT_SHA
+      - --dockerfile=web/Dockerfile
+
+  - name: gcr.io/kaniko-project/executor:latest
+    id: build-add
+    waitFor: ['-']
+    args:
+      - --cache=true
+      - --cache-ttl=168h
+      - --destination=${LOCATION}-docker.pkg.dev/$PROJECT_ID/registry/add:latest
+      - --destination=${LOCATION}-docker.pkg.dev/$PROJECT_ID/registry/add:$COMMIT_SHA
+      - --dockerfile=add/server/Dockerfile
