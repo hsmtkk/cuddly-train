@@ -17,10 +17,12 @@ class MyStack extends TerraformStack {
       region,
     });
 
+    /*
     const service_account = new google.serviceAccount.ServiceAccount(this, 'service_account', {
       accountId: 'my-account',
       displayName: 'service account for this project',
     });
+    */
 
     new google.artifactRegistryRepository.ArtifactRegistryRepository(this, 'artifact_registry', {
       format: 'docker',
@@ -37,7 +39,6 @@ class MyStack extends TerraformStack {
           branch: 'main',
         },
       },
-      serviceAccount: service_account.id,
     });
 
     new google.containerCluster.ContainerCluster(this, 'my_cluster', {
