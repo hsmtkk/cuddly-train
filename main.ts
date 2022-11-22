@@ -48,6 +48,9 @@ class MyStack extends TerraformStack {
         serviceAccount: service_account.email,
         spot: true,
       },
+      // To avoid this error
+      // Max pods constraint on node pools for Autopilot clusters should be 32., badRequest
+      ipAllocationPolicy: {},
     });
   }
 }
