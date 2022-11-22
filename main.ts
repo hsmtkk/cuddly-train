@@ -37,6 +37,7 @@ class MyStack extends TerraformStack {
           branch: 'main',
         },
       },
+      location: region,
       serviceAccount: service_account.email,
     });
 

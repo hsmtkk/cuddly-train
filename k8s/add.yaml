@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: add-deploy
+  labels:
+    app: add-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: add-deploy
+  template:
+    metadata:
+      labels:
+        app: add-deploy
+    spec:
+      containers:
+        - name: web
+          env:
+            - name: PORT
+              value: 80
+          image: asia-northeast1-docker.pkg.dev/cuddly-train/registry/add:latest
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: add-service
+spec:
+  selector:
+    app: add-deploy
+  ports:
+    - port: 80
+      protocol: TCP
