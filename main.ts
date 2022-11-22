@@ -37,8 +37,7 @@ class MyStack extends TerraformStack {
           branch: 'main',
         },
       },
-      location: region,
-      serviceAccount: service_account.email,
+      serviceAccount: service_account.id,
     });
 
     new google.containerCluster.ContainerCluster(this, 'my_cluster', {
