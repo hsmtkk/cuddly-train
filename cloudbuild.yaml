@@ -5,8 +5,8 @@ steps:
     args:
       - --cache=true
       - --cache-ttl=168h
-      - --destination=${LOCATION}-docker.pkg.dev/$PROJECT_ID/registry/web:latest
-      - --destination=${LOCATION}-docker.pkg.dev/$PROJECT_ID/registry/web:$COMMIT_SHA
+      - --destination=asia-northeast1-docker.pkg.dev/$PROJECT_ID/registry/web:latest
+      - --destination=asia-northeast1-docker.pkg.dev/$PROJECT_ID/registry/web:$COMMIT_SHA
       - --dockerfile=web/Dockerfile
 
   - name: gcr.io/kaniko-project/executor:latest
@@ -15,6 +15,6 @@ steps:
     args:
       - --cache=true
       - --cache-ttl=168h
-      - --destination=${LOCATION}-docker.pkg.dev/$PROJECT_ID/registry/add:latest
-      - --destination=${LOCATION}-docker.pkg.dev/$PROJECT_ID/registry/add:$COMMIT_SHA
+      - --destination=asia-northeast1-docker.pkg.dev/$PROJECT_ID/registry/add:latest
+      - --destination=asia-northeast1-docker.pkg.dev/$PROJECT_ID/registry/add:$COMMIT_SHA
       - --dockerfile=add/server/Dockerfile
