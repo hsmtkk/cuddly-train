@@ -3,11 +3,11 @@ WORKDIR /go/src/app
 COPY go.mod .
 COPY go.sum .
 RUN go mod download
-COPY add/ /go/src/app/add/
 COPY env/ /go/src/app/env/
-WORKDIR /go/src/app/add/server
+COPY profile/ /go/src/app/profile/
+WORKDIR /go/src/app/profile/v1
 RUN CGO_ENABLED=0 go build -o app
 
 FROM gcr.io/distroless/static-debian11 AS runtime
-COPY --from=builder /go/src/app/add/server/app /usr/local/bin/app
+COPY --from=builder /go/src/app/profile/v1/app /usr/local/bin/app
 ENTRYPOINT ["/usr/local/bin/app"]

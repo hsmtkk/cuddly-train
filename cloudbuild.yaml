@@ -1,20 +1,36 @@
 steps:
   - name: gcr.io/kaniko-project/executor:latest
-    id: build-web
+    id: build-customer
     waitFor: ['-']
     args:
       - --cache=true
       - --cache-ttl=168h
-      - --destination=asia-northeast1-docker.pkg.dev/$PROJECT_ID/registry/web:latest
-      - --destination=asia-northeast1-docker.pkg.dev/$PROJECT_ID/registry/web:$COMMIT_SHA
-      - --dockerfile=web/Dockerfile
+      - --destination=asia-northeast1-docker.pkg.dev/$PROJECT_ID/registry/customer
+      - --dockerfile=customer/Dockerfile
 
   - name: gcr.io/kaniko-project/executor:latest
-    id: build-add
+    id: build-profile-v1
     waitFor: ['-']
     args:
       - --cache=true
       - --cache-ttl=168h
-      - --destination=asia-northeast1-docker.pkg.dev/$PROJECT_ID/registry/add:latest
-      - --destination=asia-northeast1-docker.pkg.dev/$PROJECT_ID/registry/add:$COMMIT_SHA
-      - --dockerfile=add/server/Dockerfile
+      - --destination=asia-northeast1-docker.pkg.dev/$PROJECT_ID/registry/profile:v1
+      - --dockerfile=profile/v1/Dockerfile
+
+  - name: gcr.io/kaniko-project/executor:latest
+    id: build-profile-v2
+    waitFor: ['-']
+    args:
+      - --cache=true
+      - --cache-ttl=168h
+      - --destination=asia-northeast1-docker.pkg.dev/$PROJECT_ID/registry/profile:v2
+      - --dockerfile=profile/v2/Dockerfile
+
+  - name: gcr.io/kaniko-project/executor:latest
+    id: build-order
+    waitFor: ['-']
+    args:
+      - --cache=true
+      - --cache-ttl=168h
+      - --destination=asia-northeast1-docker.pkg.dev/$PROJECT_ID/registry/order
+      - --dockerfile=order/Dockerfile

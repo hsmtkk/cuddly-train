@@ -27,35 +27,37 @@ func main() {
 	e.Use(middleware.Recover())
 
 	// Routes
-	e.GET("/", hdl.index)
+	e.GET("/:id", hdl.index)
 
 	// Start server
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", port)))
 }
 
-type handler struct{}
+type handler struct {
+}
 
 func newHandler() *handler {
 	return &handler{}
 }
 
 type responseFormat struct {
-	Sum     int `json:"sum"`
-	Product int `json:"product"`
+	Items []string `json:"items"`
+}
+
+var items = [][]string{
+	{"apple", "book", "chocolate"},
+	{"dogfood", "egg", "fruit"},
+	{"ham", "ink", "juice"},
 }
 
 func (h *handler) index(ectx echo.Context) error {
-	num1, err := strconv.Atoi(ectx.QueryParam("num1"))
+	idStr := ectx.Param("id")
+	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		return fmt.Errorf("strconv.Atoi failed; %w", err)
-	}
-	num2, err := strconv.Atoi(ectx.QueryParam("num2"))
-	if err != nil {
-		return fmt.Errorf("strconv.Atoi failed; %w", err)
+		ectx.String(http.StatusBadRequest, fmt.Sprintf("strconv.Atoi failed; %v", err.Error()))
 	}
 	resp := responseFormat{
-		Sum:     num1 + num2,
-		Product: num1 * num2,
+		Items: items[id%len(items)],
 	}
 	return ectx.JSON(http.StatusOK, resp)
 }
