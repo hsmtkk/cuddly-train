@@ -44,6 +44,9 @@ class MyStack extends TerraformStack {
       name: 'my-cluster',
       enableAutopilot: true,
       location: region,
+      // To avoid this error
+      // Error 400: Max pods constraint on node pools for Autopilot clusters should be 32., badRequest
+      ipAllocationPolicy: {},
     });
   }
 }
