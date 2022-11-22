@@ -43,6 +43,7 @@ class MyStack extends TerraformStack {
     new google.containerCluster.ContainerCluster(this, 'container_cluster', {
       name: 'my-cluster',
       enableAutopilot: true,
+      location: region,
       nodeConfig: {
         serviceAccount: service_account.email,
         spot: true,
