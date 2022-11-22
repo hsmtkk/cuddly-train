@@ -23,6 +23,8 @@ spec:
           image: asia-northeast1-docker.pkg.dev/cuddly-train/registry/web:latest
           ports:
             - containerPort: 80
+      nodeSelector:
+        cloud.google.com/gke-spot: "true"
 ---
 apiVersion: v1
 kind: Service

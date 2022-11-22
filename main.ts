@@ -41,17 +41,10 @@ class MyStack extends TerraformStack {
       serviceAccount: service_account.email,
     });
 
-    new google.containerCluster.ContainerCluster(this, 'container_cluster', {
+    new google.containerCluster.ContainerCluster(this, 'my_cluster', {
       name: 'my-cluster',
       enableAutopilot: true,
       location: region,
-      nodeConfig: {
-        serviceAccount: service_account.email,
-        spot: true,
-      },
-      // To avoid this error
-      // Max pods constraint on node pools for Autopilot clusters should be 32., badRequest
-      ipAllocationPolicy: {},
     });
   }
 }
