@@ -14,7 +14,7 @@ import (
 
 func main() {
 	cmd := &cobra.Command{
-		Args: cobra.ExactArgs(1),
+		Args: cobra.ExactArgs(3),
 		Run:  run,
 		Use:  "cronclient customer-service-address repeats interval-seconds",
 	}
