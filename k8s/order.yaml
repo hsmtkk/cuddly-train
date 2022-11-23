@@ -19,17 +19,21 @@ spec:
         - name: web
           env:
             - name: PORT
-              value: 80
+              value: "80"
           image: asia-northeast1-docker.pkg.dev/cuddly-train/registry/order:latest
           ports:
             - containerPort: 80
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
       nodeSelector:
         cloud.google.com/gke-spot: "true"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: profile-service
+  name: order-service
 spec:
   selector:
     app: order-deploy

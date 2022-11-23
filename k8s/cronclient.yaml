@@ -14,5 +14,10 @@ spec:
               image: asia-northeast1-docker.pkg.dev/cuddly-train/registry/cronclient:latest
               args:
                 - customer-service:80
-                - 5
-                - 10
+                - "5"
+                - "10"
+              resources:
+                requests:
+                  cpu: 250m
+                  memory: 512Mi
+          restartPolicy: Never

@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-deploy
+  labels:
+    app: worker-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker-deploy
+  template:
+    metadata:
+      labels:
+        app: worker-deploy
+    spec:
+      containers:
+        - name: web
+          command:
+            - tail
+          args:
+            - -f
+            - /dev/null
+          image: ubuntu:latest
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+      nodeSelector:
+        cloud.google.com/gke-spot: "true"
