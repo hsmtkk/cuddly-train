@@ -15,6 +15,7 @@ import (
 func main() {
 	cmd := &cobra.Command{
 		Args: cobra.ExactArgs(1),
+		Run:  run,
 		Use:  "cronclient customer-service-address repeats interval-seconds",
 	}
 	if err := cmd.Execute(); err != nil {
@@ -26,11 +27,11 @@ func run(cmd *cobra.Command, args []string) {
 	customerAddress := args[0]
 	repeats, err := strconv.Atoi(args[1])
 	if err != nil {
-		log.Fatalf("strconv.Atoi failed; %w", err)
+		log.Fatalf("strconv.Atoi failed; %v", err.Error())
 	}
 	intervalSeconds, err := strconv.Atoi(args[2])
 	if err != nil {
-		log.Fatalf("strconv.Atoi failed; %w", err)
+		log.Fatalf("strconv.Atoi failed; %v", err.Error())
 	}
 	for i := 0; i < repeats; i++ {
 		if err := accessCustomerService(customerAddress); err != nil {
