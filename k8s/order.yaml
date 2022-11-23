@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-deploy
+  labels:
+    app: order-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-deploy
+  template:
+    metadata:
+      labels:
+        app: order-deploy
+    spec:
+      containers:
+        - name: web
+          env:
+            - name: PORT
+              value: 80
+          image: asia-northeast1-docker.pkg.dev/cuddly-train/registry/order:latest
+          ports:
+            - containerPort: 80
+      nodeSelector:
+        cloud.google.com/gke-spot: "true"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: profile-service
+spec:
+  selector:
+    app: order-deploy
+  ports:
+    - port: 80
+      protocol: TCP

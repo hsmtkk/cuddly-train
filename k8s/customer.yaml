@@ -2,25 +2,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: add-deploy
+  name: customer-deploy
   labels:
-    app: add-deploy
+    app: customer-deploy
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: add-deploy
+      app: customer-deploy
   template:
     metadata:
       labels:
-        app: add-deploy
+        app: customer-deploy
     spec:
       containers:
         - name: web
           env:
             - name: PORT
               value: 80
-          image: asia-northeast1-docker.pkg.dev/cuddly-train/registry/add:latest
+            - name: PROFILE_ADDRESS
+              value: profile-service:80
+            - name: ORDER_ADDRESS
+              value: order-service:80
+          image: asia-northeast1-docker.pkg.dev/cuddly-train/registry/customer:latest
           ports:
             - containerPort: 80
       nodeSelector:
@@ -29,10 +33,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: add-service
+  name: customer-service
 spec:
   selector:
-    app: add-deploy
+    app: customer-deploy
   ports:
     - port: 80
       protocol: TCP

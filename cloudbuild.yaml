@@ -1,11 +1,20 @@
 steps:
   - name: gcr.io/kaniko-project/executor:latest
+    id: build-cronclient
+    waitFor: ['-']
+    args:
+      - --cache=true
+      - --cache-ttl=168h
+      - --destination=asia-northeast1-docker.pkg.dev/$PROJECT_ID/registry/cronclient:latest
+      - --dockerfile=cronclient/Dockerfile
+
+  - name: gcr.io/kaniko-project/executor:latest
     id: build-customer
     waitFor: ['-']
     args:
       - --cache=true
       - --cache-ttl=168h
-      - --destination=asia-northeast1-docker.pkg.dev/$PROJECT_ID/registry/customer
+      - --destination=asia-northeast1-docker.pkg.dev/$PROJECT_ID/registry/customer:latest
       - --dockerfile=customer/Dockerfile
 
   - name: gcr.io/kaniko-project/executor:latest
@@ -32,5 +41,5 @@ steps:
     args:
       - --cache=true
       - --cache-ttl=168h
-      - --destination=asia-northeast1-docker.pkg.dev/$PROJECT_ID/registry/order
+      - --destination=asia-northeast1-docker.pkg.dev/$PROJECT_ID/registry/order:latest
       - --dockerfile=order/Dockerfile
