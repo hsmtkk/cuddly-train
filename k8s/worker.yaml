@@ -23,6 +23,7 @@ spec:
             - -f
             - /dev/null
           image: ubuntu:latest
+          imagePullPolicy: Always
           resources:
             requests:
               cpu: 250m

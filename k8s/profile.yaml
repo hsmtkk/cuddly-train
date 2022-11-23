@@ -21,6 +21,7 @@ spec:
             - name: PORT
               value: "80"
           image: asia-northeast1-docker.pkg.dev/cuddly-train/registry/profile:v1
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           resources:

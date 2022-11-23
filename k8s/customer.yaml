@@ -25,6 +25,7 @@ spec:
             - name: ORDER_ADDRESS
               value: order-service:80
           image: asia-northeast1-docker.pkg.dev/cuddly-train/registry/customer:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           resources:

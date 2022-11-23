@@ -12,6 +12,7 @@ spec:
           containers:
             - name: cronclient
               image: asia-northeast1-docker.pkg.dev/cuddly-train/registry/cronclient:latest
+              imagePullPolicy: Always
               args:
                 - customer-service:80
                 - "5"
