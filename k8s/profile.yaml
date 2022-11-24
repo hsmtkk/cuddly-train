@@ -2,7 +2,48 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: profile-deploy
+  name: profile-deploy-v1
+  labels:
+    app: profile-deploy    
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: profile-deploy
+  template:
+    metadata:
+      labels:
+        app: profile-deploy
+        version: v1
+    spec:
+      containers:
+        - name: web
+          env:
+            - name: PORT
+              value: "80"
+          image: asia-northeast1-docker.pkg.dev/cuddly-train/registry/profile:v1
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+      nodeSelector:
+        cloud.google.com/gke-spot: "true"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: profile-deploy-v2
   labels:
     app: profile-deploy
 spec:
@@ -14,13 +55,14 @@ spec:
     metadata:
       labels:
         app: profile-deploy
+        version: v2
     spec:
       containers:
         - name: web
           env:
             - name: PORT
               value: "80"
-          image: asia-northeast1-docker.pkg.dev/cuddly-train/registry/profile:v1
+          image: asia-northeast1-docker.pkg.dev/cuddly-train/registry/profile:v2
           imagePullPolicy: Always
           livenessProbe:
             httpGet:
@@ -50,3 +92,35 @@ spec:
     - name: http
       port: 80
       protocol: TCP
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: profile-destination
+spec:
+  host: profile-service
+  subsets:
+    - labels:
+        version: v1
+      name: v1
+    - labels:
+        version: v2
+      name: v2
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: profile-virtualservice
+spec:
+  hosts:
+    - profile-service
+  http:
+    - route:
+      - destination:
+          host: profile-service
+          subset: v1
+        weight: 90
+      - destination:
+          host: profile-service
+          subset: v2
+        weight: 10

@@ -4,7 +4,7 @@ kind: CronJob
 metadata:
   name: cronclient
 spec:
-  schedule: "* * * * *"
+  schedule: "*/5 * * * *"
   jobTemplate:
     spec:
       template:
@@ -15,7 +15,7 @@ spec:
               imagePullPolicy: Always
               args:
                 - customer-service:80
-                - "5"
+                - "30"
                 - "10"
               resources:
                 requests:
