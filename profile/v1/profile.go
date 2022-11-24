@@ -28,6 +28,7 @@ func main() {
 
 	// Routes
 	e.GET("/:id", hdl.index)
+	e.GET("/health", hdl.health)
 
 	// Start server
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", port)))
@@ -55,4 +56,8 @@ func (h *handler) index(ectx echo.Context) error {
 		Name: names[id%len(names)],
 	}
 	return ectx.JSON(http.StatusOK, resp)
+}
+
+func (h *handler) health(ectx echo.Context) error {
+	return ectx.String(http.StatusOK, "OK")
 }

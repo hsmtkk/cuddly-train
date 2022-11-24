@@ -22,8 +22,16 @@ spec:
               value: "80"
           image: asia-northeast1-docker.pkg.dev/cuddly-train/registry/profile:v1
           imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 80
           ports:
             - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 80
           resources:
             requests:
               cpu: 250m

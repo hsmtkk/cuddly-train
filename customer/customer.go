@@ -38,6 +38,7 @@ func main() {
 
 	// Routes
 	e.GET("/:id", hdl.index)
+	e.GET("/health", hdl.health)
 
 	// Start server
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", port)))
@@ -96,4 +97,8 @@ func (h *handler) httpGet(url string) ([]byte, error) {
 		return nil, fmt.Errorf("io.ReadAll failed; %w", err)
 	}
 	return body, nil
+}
+
+func (h *handler) health(ectx echo.Context) error {
+	return ectx.String(http.StatusOK, "OK")
 }
