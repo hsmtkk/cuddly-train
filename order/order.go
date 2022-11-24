@@ -27,8 +27,8 @@ func main() {
 	e.Use(middleware.Recover())
 
 	// Routes
-	e.GET("/:id", hdl.index)
-	e.GET("/health", hdl.health)
+	e.GET("/", hdl.health)
+	e.GET("/order/:id", hdl.order)
 
 	// Start server
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", port)))
@@ -51,7 +51,7 @@ var items = [][]string{
 	{"ham", "ink", "juice"},
 }
 
-func (h *handler) index(ectx echo.Context) error {
+func (h *handler) order(ectx echo.Context) error {
 	idStr := ectx.Param("id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {

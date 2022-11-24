@@ -27,8 +27,8 @@ func main() {
 	e.Use(middleware.Recover())
 
 	// Routes
-	e.GET("/:id", hdl.index)
-	e.GET("/health", hdl.health)
+	e.GET("/", hdl.health)
+	e.GET("/profile/:id", hdl.profile)
 
 	// Start server
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", port)))
@@ -49,7 +49,7 @@ type responseFormat struct {
 var names = []string{"Alice", "Bob", "Carol"}
 var mails = []string{"alice@example.com", "bob@example.com", "carol@example.com"}
 
-func (h *handler) index(ectx echo.Context) error {
+func (h *handler) profile(ectx echo.Context) error {
 	id, err := strconv.Atoi(ectx.Param("id"))
 	if err != nil {
 		ectx.String(http.StatusBadRequest, fmt.Sprintf("strconv.Atoi failed; %v", err.Error()))

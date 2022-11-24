@@ -43,7 +43,7 @@ func run(cmd *cobra.Command, args []string) {
 
 func accessCustomerService(customerAddress string) error {
 	customerID := rand.Intn(100)
-	url := fmt.Sprintf("http://%s/%d", customerAddress, customerID)
+	url := fmt.Sprintf("http://%s/customer/%d", customerAddress, customerID)
 	resp, err := http.Get(url)
 	if err != nil {
 		return fmt.Errorf("http.Get failed; %s; %w", url, err)

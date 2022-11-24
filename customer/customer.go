@@ -37,8 +37,8 @@ func main() {
 	e.Use(middleware.Recover())
 
 	// Routes
-	e.GET("/:id", hdl.index)
-	e.GET("/health", hdl.health)
+	e.GET("/", hdl.health)
+	e.GET("/customer/:id", hdl.customer)
 
 	// Start server
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", port)))
@@ -58,13 +58,13 @@ type responseFormat struct {
 	Order   interface{} `json:"order"`
 }
 
-func (h *handler) index(ectx echo.Context) error {
+func (h *handler) customer(ectx echo.Context) error {
 	id, err := strconv.Atoi(ectx.Param("id"))
 	if err != nil {
 		return ectx.String(http.StatusBadRequest, fmt.Sprintf("strconv.Atoi failed; %v", err.Error()))
 	}
-	profileURL := fmt.Sprintf("http://%s/%d", h.profileAddress, id)
-	orderURL := fmt.Sprintf("http://%s/%d", h.orderAddress, id)
+	profileURL := fmt.Sprintf("http://%s/profile/%d", h.profileAddress, id)
+	orderURL := fmt.Sprintf("http://%s/order/%d", h.orderAddress, id)
 	profileResp, err := h.httpGet(profileURL)
 	if err != nil {
 		return ectx.String(http.StatusInternalServerError, err.Error())
