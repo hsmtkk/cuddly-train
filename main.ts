@@ -17,13 +17,6 @@ class MyStack extends TerraformStack {
       region,
     });
 
-    /*
-    const service_account = new google.serviceAccount.ServiceAccount(this, 'service_account', {
-      accountId: 'my-account',
-      displayName: 'service account for this project',
-    });
-    */
-
     new google.artifactRegistryRepository.ArtifactRegistryRepository(this, 'artifact_registry', {
       format: 'docker',
       location: region,
@@ -41,6 +34,7 @@ class MyStack extends TerraformStack {
       },
     });
 
+    /*
     new google.containerCluster.ContainerCluster(this, 'my_cluster', {
       name: 'my-cluster',
       enableAutopilot: true,
@@ -49,6 +43,7 @@ class MyStack extends TerraformStack {
       // Error 400: Max pods constraint on node pools for Autopilot clusters should be 32., badRequest
       ipAllocationPolicy: {},
     });
+    */
   }
 }
 
