@@ -4,4 +4,4 @@ resources:
   - customer.yaml
   - profile.yaml
   - order.yaml
-  - worker.yaml
+#  - worker.yaml

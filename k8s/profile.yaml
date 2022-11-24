@@ -47,5 +47,6 @@ spec:
   selector:
     app: profile-deploy
   ports:
-    - port: 80
+    - name: http
+      port: 80
       protocol: TCP
